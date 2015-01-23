@@ -13,7 +13,7 @@ Yii2: Adm-Email-Config Модуль для Adm CMS
 -------------------
 ```php
 'on beforeRequest' => function ($event) {
-    pavlinter\admeconfig\models\EmailConfig::changeMailConfig();
+    \pavlinter\admeconfig\models\EmailConfig::changeMailConfig();
 },
 'modules' => [
     ...
