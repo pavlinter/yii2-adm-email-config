@@ -1,6 +1,6 @@
 {
     "name": "pavlinter/yii2-adm-email-config",
-    "description": "Yii2: Adm-Params",
+    "description": "Yii2: Adm-Email-Config Модуль для Adm CMS ",
     "keywords": ["yii2", "adm", "cms","adm-email-config", "email"],
     "type": "yii2-extension",
     "license": "BSD 3-Clause",
