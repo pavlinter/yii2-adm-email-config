@@ -1,8 +1,14 @@
 <?php
 
+/**
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
+ * @package yii2-adm-email-config
+ */
+
 namespace pavlinter\admeconfig\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%adm_econfig}}".
@@ -20,7 +26,7 @@ use Yii;
  */
 class EmailConfig extends \yii\db\ActiveRecord
 {
-
+    const EMAIL_SEPARATOR = '|';
     /**
      * @inheritdoc
      */
@@ -140,4 +146,75 @@ class EmailConfig extends \yii\db\ActiveRecord
             $mailer->setTransport($transport);
         }
     }
+
+
+    /**
+     * @param callable $func
+     * @param array|string $include
+     * @param array|string $exclude
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function eachEmail(\Closure $func , $include = [], $exclude = [])
+    {
+        $emails = self::exclude($include, $exclude);
+        foreach ($emails as $email) {
+            call_user_func($func, $email);
+        }
+    }
+
+    /**
+     * @param array|string $include
+     * @param array|string $exclude
+     * @return array
+     */
+    public static function exclude($include = [], $exclude = [])
+    {
+        $module = Yii::$app->getModule('admeconfig');
+        if (!is_array($include)) {
+            $include = [$include];
+        }
+        if (!is_array($exclude)) {
+            $exclude = [$exclude];
+        }
+
+        foreach ($include as $k => $v) {
+            if(is_integer($k)) {
+
+                if (is_array($v)) {
+                    foreach ($v as $email => $name) {
+                        $include[$k] = $email;
+                        break;
+                    }
+                } else {
+                    $include[$k] = $v;
+                }
+            } else {
+                foreach ($include as $email => $name) {
+                    $include = [$email];
+                    break;
+                }
+                break;
+            }
+        }
+
+
+        $params = $include;
+        if (isset(Yii::$app->params['adminEmails'])) {
+            if (Yii::$app->params['adminEmails'] !== '') {
+                $params = ArrayHelper::merge($params, explode(self::EMAIL_SEPARATOR, Yii::$app->params[$module->emailsParamsKey]));
+            }
+        }
+
+        if (empty($exclude)) {
+            return $params;
+        }
+
+        foreach ($params as $key => $item) {
+            if (in_array($item, $exclude)) {
+                unset($params[$key]);
+            }
+        }
+        return $params;
+    }
+
 }

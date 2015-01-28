@@ -11,6 +11,8 @@ Yii2: Adm-Email-Config Модуль для Adm CMS
 
 Настройка
 -------------------
+Для начало нужно установить [yii2-adm-params](https://github.com/pavlinter/yii2-adm-params).
+
 ```php
 'on beforeRequest' => function ($event) {
     \pavlinter\admeconfig\models\EmailConfig::changeMailConfig();

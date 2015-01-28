@@ -1,11 +1,13 @@
 <?php
 
 use kartik\checkbox\CheckboxX;
+use kartik\widgets\Select2;
+use pavlinter\admeconfig\models\EmailConfig;
 use pavlinter\buttons\InputButton;
 use pavlinter\adm\Adm;
 
 /* @var $this yii\web\View */
-/* @var $model\pavlinter\admeconfig\models\EmailConfig */
+/* @var $modelEmailConfig */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -40,15 +42,55 @@ use pavlinter\adm\Adm;
         </div>
     </div>
 
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4 ">
+
+            <div class="m-b-lg">
+                <label class="control-label"><?= Adm::t('adm_email_config', 'Send copy to:', ['dot' => true]) ?></label>
+                <?php
+                echo Select2::widget([
+                    'name' => 'params',
+                    'value' => $paramsValue,
+                    'options' => ['placeholder' => Adm::t('', 'Select ...', ['dot' => false])],
+                    'pluginOptions' => [
+                        'tags' => [],
+                        'maximumInputLength' => 250,
+                        'separator' => EmailConfig::EMAIL_SEPARATOR,
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6">
+
+        </div>
+    </div>
+
+
     <div class="form-group">
         <?=  InputButton::widget([
-            'label' => $model->isNewRecord ? Adm::t('', 'Create', ['dot' => false]) : Adm::t('', 'Update', ['dot' => false]),
+            'label' => Adm::t('', 'Update', ['dot' => false]),
             'options' => ['class' => 'btn btn-primary'],
             'input' => 'adm-redirect',
             'name' => 'redirect',
             'formSelector' => $form,
         ]);?>
+
+        <?=  InputButton::widget([
+            'label' => Adm::t('adm_email_config', 'Update and Test', ['dot' => false]),
+            'options' => ['class' => 'btn btn-primary'],
+            'input' => 'adm-redirect',
+            'name' => 'check-mailer',
+            'formSelector' => $form,
+        ]);?>
+
+
     </div>
+
+    <?= Adm::t('adm_email_config','Update and Test', ['dot' => '.']); ?>
+    <?= Adm::t('adm_email_config','Test subject', ['dot' => '.']); ?>
+    <?= Adm::t('adm_email_config','Test text', ['dot' => '.']); ?>
 
     <?php Adm::end('ActiveForm'); ?>
 
@@ -73,4 +115,5 @@ $this->registerJs('
         }
 
     }).trigger("readonly");
+
 ');

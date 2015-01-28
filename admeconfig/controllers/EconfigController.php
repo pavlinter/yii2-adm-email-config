@@ -1,13 +1,14 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2014
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
  * @package yii2-adm-email-config
  */
 
 namespace pavlinter\admeconfig\controllers;
 
 use pavlinter\admeconfig\Module;
+use pavlinter\admparams\models\Params;
 use Yii;
 use pavlinter\adm\Adm;
 use yii\web\Controller;
@@ -25,14 +26,42 @@ class EconfigController extends Controller
      */
     public function actionUpdate()
     {
+        /* @var $paramModule \pavlinter\admparams\Module */
+        $paramModule = Yii::$app->getModule('admparams');
+        $paramsValue = null;
+        if (isset(Yii::$app->params['adminEmails'])) {
+            $paramsValue = Yii::$app->params['adminEmails'];
+        }
+
         $id = 1;
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $param = $paramModule->manager->createParamsQuery('find')->where(['name' => 'adminEmails'])->one();
+
+            if ($param === null) {
+                $param = $paramModule->manager->createParams();
+                $param->name = 'adminEmails';
+            }
+            $param->value = Yii::$app->request->post('params');
+            $param->save(false);
+
             Yii::$app->getSession()->setFlash('success', Adm::t('','Data successfully changed!'));
+            if (Yii::$app->request->post('check-mailer')) {
+                Module::getInstance()->manager->createEmailConfigQuery('eachEmail', function ($email) {
+                    Yii::$app->mailer->compose()
+                        ->setTo($email)
+                        ->setFrom(Yii::$app->params['adminEmailName'])
+                        ->setSubject(Adm::t('adm_email_config','Test subject', ['dot' => false]))
+                        ->setHtmlBody(Adm::t('adm_email_config','Test text', ['dot' => false]))
+                        ->send();
+                });
+                Yii::$app->getSession()->setFlash('success', Adm::t('adm_email_config','Email sent!'));
+            }
             return Adm::redirect(['update', 'id' => $model->id]);
         }
         return $this->render('update', [
             'model' => $model,
+            'paramsValue' => $paramsValue,
         ]);
     }
 

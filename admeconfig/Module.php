@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2014
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
  * @package yii2-adm-email-config
  */
 
@@ -21,6 +21,7 @@ class Module extends \yii\base\Module implements AdmBootstrapInterface
 
     public $layout = '@vendor/pavlinter/yii2-adm/adm/views/layouts/main';
 
+    public $emailsParamsKey = 'mailConfigEmails';
     /**
      * @inheritdoc
      */

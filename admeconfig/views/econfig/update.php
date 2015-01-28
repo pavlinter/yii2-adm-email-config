@@ -17,6 +17,6 @@ Yii::$app->i18n->resetDot();
 
     <?= $this->render('_form', [
         'model' => $model,
+        'paramsValue' => $paramsValue,
     ]) ?>
-
 </div>

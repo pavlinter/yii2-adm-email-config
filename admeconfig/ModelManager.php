@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2014
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
  * @package yii2-adm-email-config
  */
 
