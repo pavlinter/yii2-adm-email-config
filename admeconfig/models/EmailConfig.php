@@ -160,7 +160,7 @@ class EmailConfig extends \yii\db\ActiveRecord
 
         foreach ($emails as $email) {
             $res = call_user_func($func, $email);
-            if ($res !== null) {
+            if ($res !== null && $res !== true) {
                 return $res;
             }
         }
