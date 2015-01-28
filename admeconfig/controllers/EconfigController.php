@@ -7,6 +7,7 @@
 
 namespace pavlinter\admeconfig\controllers;
 
+use pavlinter\admeconfig\models\EmailConfig;
 use pavlinter\admeconfig\Module;
 use pavlinter\admparams\models\Params;
 use Yii;
@@ -46,23 +47,46 @@ class EconfigController extends Controller
             $param->save(false);
 
             Yii::$app->getSession()->setFlash('success', Adm::t('','Data successfully changed!'));
-            if (Yii::$app->request->post('check-mailer')) {
-                Module::getInstance()->manager->createEmailConfigQuery('eachEmail', function ($email) {
-                    Yii::$app->mailer->compose()
-                        ->setTo($email)
-                        ->setFrom(Yii::$app->params['adminEmailName'])
-                        ->setSubject(Adm::t('adm_email_config','Test subject', ['dot' => false]))
-                        ->setHtmlBody(Adm::t('adm_email_config','Test text', ['dot' => false]))
-                        ->send();
-                });
-                Yii::$app->getSession()->setFlash('success', Adm::t('adm_email_config','Email sent!'));
-            }
-            return Adm::redirect(['update', 'id' => $model->id]);
+            return Adm::redirect(['update']);
         }
         return $this->render('update', [
             'model' => $model,
             'paramsValue' => $paramsValue,
         ]);
+    }
+
+    /**
+     * @return \yii\web\Response
+     */
+    public function actionTest()
+    {
+
+        $error = Module::getInstance()->manager->createEmailConfigQuery('eachEmail', function ($email) {
+            try {
+                Yii::$app->mailer->compose()
+                    ->setTo($email)
+                    ->setFrom(Yii::$app->params['adminEmailName'])
+                    ->setSubject(Adm::t('adm_email_config','Test subject', ['dot' => false]))
+                    ->setHtmlBody(Adm::t('adm_email_config','Test text', ['dot' => false]))
+                    ->send();
+            } catch (\Exception $e) {
+                if ($e instanceof \Swift_RfcComplianceException) {
+                    Yii::$app->getSession()->setFlash('error', Adm::t('adm_email_config','Maybe incorrect email address: {error}', ['error' => $e->getMessage(),'dot' => true]));
+                } else {
+                    Yii::$app->getSession()->setFlash('error', Adm::t('adm_email_config','Error: {error}', ['error' => $e->getMessage(),'dot' => true]));
+                }
+                return true;
+            }
+
+        });
+
+        if ($error) {
+            Yii::$app->getSession()->removeFlash('success');
+        } else {
+            Yii::$app->getSession()->setFlash('success', Adm::t('adm_email_config','Email sent!', ['dot' => true]));
+        }
+
+        return Adm::redirect(['update']);
     }
 
     /**

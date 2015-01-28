@@ -157,8 +157,12 @@ class EmailConfig extends \yii\db\ActiveRecord
     public static function eachEmail(\Closure $func , $include = [], $exclude = [])
     {
         $emails = self::exclude($include, $exclude);
+
         foreach ($emails as $email) {
-            call_user_func($func, $email);
+            $res = call_user_func($func, $email);
+            if ($res !== null) {
+                return $res;
+            }
         }
     }
 
@@ -169,7 +173,6 @@ class EmailConfig extends \yii\db\ActiveRecord
      */
     public static function exclude($include = [], $exclude = [])
     {
-        $module = Yii::$app->getModule('admeconfig');
         if (!is_array($include)) {
             $include = [$include];
         }
@@ -201,7 +204,7 @@ class EmailConfig extends \yii\db\ActiveRecord
         $params = $include;
         if (isset(Yii::$app->params['adminEmails'])) {
             if (Yii::$app->params['adminEmails'] !== '') {
-                $params = ArrayHelper::merge($params, explode(self::EMAIL_SEPARATOR, Yii::$app->params[$module->emailsParamsKey]));
+                $params = ArrayHelper::merge($params, explode(self::EMAIL_SEPARATOR, Yii::$app->params['adminEmails']));
             }
         }
 
