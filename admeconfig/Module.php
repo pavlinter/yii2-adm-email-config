@@ -20,8 +20,6 @@ class Module extends \yii\base\Module implements AdmBootstrapInterface
     public $controllerNamespace = 'pavlinter\admeconfig\controllers';
 
     public $layout = '@vendor/pavlinter/yii2-adm/adm/views/layouts/main';
-
-    public $emailsParamsKey = 'mailConfigEmails';
     /**
      * @inheritdoc
      */
