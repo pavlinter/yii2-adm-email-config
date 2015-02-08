@@ -57,3 +57,20 @@ Yii::$app->mailer->compose()
     ->setTextBody('body')
     ->send();
 ```
+
+Послать копию админу
+-------------------
+```php
+$valid = EmailConfig::eachEmail(function ($email) {
+    return Yii::$app->mailer->compose()
+        ->setTo($email)
+        ->setFrom()
+        ->setSubject('Subject')
+        ->setHtmlBody('Body')
+        ->send();
+});
+if ($valid === false) {
+    return false;
+}
+return true;
+```
