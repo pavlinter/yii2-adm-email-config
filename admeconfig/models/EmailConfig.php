@@ -60,7 +60,7 @@ class EmailConfig extends \yii\db\ActiveRecord
         return [
             [['host', 'port', 'encryption', 'from_email'], 'required'],
             [['enable_smtp'], 'boolean'],
-            [['encryption'], 'in', 'range' => array_keys(self::encryptionList())],
+            [['encryption'], 'in', 'range' => array_keys(static::encryptionList())],
             [['host', 'username', 'password', 'from_email', 'from_name'], 'string', 'max' => 250],
             [['port', 'encryption'], 'string', 'max' => 50]
         ];
@@ -110,13 +110,13 @@ class EmailConfig extends \yii\db\ActiveRecord
      */
     public static function changeMailConfig()
     {
-        $key = self::className() . '-econfig';
+        $key = static::className() . '-econfig';
         $row = Yii::$app->cache->get($key);
         if ($row === false) {
-            $row = self::find()->asArray()->one();
+            $row = static::find()->asArray()->one();
             $query = new \yii\db\Query();
             $sql = $query->select('MAX(updated_at)')
-                ->from(self::tableName())
+                ->from(static::tableName())
                 ->createCommand()
                 ->getRawSql();
             Yii::$app->cache->set($key, $row, 86400, new \yii\caching\DbDependency([
@@ -156,7 +156,7 @@ class EmailConfig extends \yii\db\ActiveRecord
      */
     public static function eachEmail(\Closure $func , $include = [], $exclude = [])
     {
-        $emails = self::exclude($include, $exclude);
+        $emails = static::exclude($include, $exclude);
 
         foreach ($emails as $email) {
             $res = call_user_func($func, $email);
