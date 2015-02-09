@@ -204,7 +204,7 @@ class EmailConfig extends \yii\db\ActiveRecord
         $params = $include;
         if (isset(Yii::$app->params['adminEmails'])) {
             if (Yii::$app->params['adminEmails'] !== '') {
-                $params = ArrayHelper::merge($params, explode(self::EMAIL_SEPARATOR, Yii::$app->params['adminEmails']));
+                $params = ArrayHelper::merge($params, explode(static::EMAIL_SEPARATOR, Yii::$app->params['adminEmails']));
             }
         }
 
