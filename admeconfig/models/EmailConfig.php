@@ -132,18 +132,19 @@ class EmailConfig extends \yii\db\ActiveRecord
         } else {
             Yii::$app->params['adminEmailName'] = $row['from_email'];
         }
-        /* @var \yii\swiftmailer\Mailer $mail */
+        /* @var \yii\swiftmailer\Mailer $mailer */
         $mailer = Yii::$app->mailer;
         if ($row['enable_smtp']) {
-            $transport = Yii::createObject([
+            $transport = [
                 'class' => 'Swift_SmtpTransport',
                 'host' => $row['host'],
                 'username' => $row['username'],
                 'password' => $row['password'],
                 'port' => $row['port'],
                 'encryption' => $row['encryption'],
-            ]);
+            ];
             $mailer->setTransport($transport);
+            $mailer->getSwiftMailer(); //rewrite Instance
         }
     }
 
