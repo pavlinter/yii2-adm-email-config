@@ -54,7 +54,7 @@ Yii::$app->mailer->compose()
     ->setFrom(Yii::$app->params['adminEmailName'])
     //->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->params['adminName']])
     ->setSubject('subject')
-    ->setTextBody('body')
+    ->setHtmlBody('body')
     ->send();
 ```
 
