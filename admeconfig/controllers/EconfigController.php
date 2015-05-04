@@ -75,12 +75,12 @@ class EconfigController extends Controller
                 } else {
                     Yii::$app->getSession()->setFlash('error', Adm::t('adm_email_config','Error: {error}', ['error' => $e->getMessage(),'dot' => true]));
                 }
-                return true;
+                return false;
             }
 
         });
 
-        if ($error) {
+        if ($error === false) {
             Yii::$app->getSession()->removeFlash('success');
         } else {
             Yii::$app->getSession()->setFlash('success', Adm::t('adm_email_config','Email sent!', ['dot' => true]));
