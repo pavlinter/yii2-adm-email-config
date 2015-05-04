@@ -1,8 +1,10 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
  * @package yii2-adm-email-config
+ * @author Pavels Radajevs <pavlinter@gmail.com>
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
+ * @version 1.0.1
  */
 
 namespace pavlinter\admeconfig;

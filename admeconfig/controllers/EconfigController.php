@@ -1,8 +1,10 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
  * @package yii2-adm-email-config
+ * @author Pavels Radajevs <pavlinter@gmail.com>
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
+ * @version 1.0.1
  */
 
 namespace pavlinter\admeconfig\controllers;
@@ -75,12 +77,12 @@ class EconfigController extends Controller
                 } else {
                     Yii::$app->getSession()->setFlash('error', Adm::t('adm_email_config','Error: {error}', ['error' => $e->getMessage(),'dot' => true]));
                 }
-                return false;
+                return true;
             }
 
         });
 
-        if ($error === false) {
+        if ($error) {
             Yii::$app->getSession()->removeFlash('success');
         } else {
             Yii::$app->getSession()->setFlash('success', Adm::t('adm_email_config','Email sent!', ['dot' => true]));
