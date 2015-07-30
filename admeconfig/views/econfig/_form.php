@@ -10,6 +10,8 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $modelEmailConfig */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $paramsValue array|null */
+/* @var $data array */
 ?>
 
 <div class="email-config-form">
@@ -38,11 +40,15 @@ use yii\helpers\Url;
                 echo Select2::widget([
                     'name' => 'params',
                     'value' => $paramsValue,
-                    'options' => ['placeholder' => Adm::t('', 'Select ...', ['dot' => false])],
+                    'options' => [
+                        'multiple' => true,
+                        'placeholder' => Adm::t('', 'Select ...', ['dot' => false])
+                    ],
+                    'data' => $data,
                     'pluginOptions' => [
-                        'tags' => [],
+                        'tags' => true,
                         'maximumInputLength' => 250,
-                        'separator' => EmailConfig::EMAIL_SEPARATOR,
+                        'tokenSeparators' => [EmailConfig::EMAIL_SEPARATOR],
                     ],
                 ]);
                 ?>

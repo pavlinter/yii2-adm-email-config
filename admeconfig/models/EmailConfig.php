@@ -28,7 +28,7 @@ use yii\helpers\ArrayHelper;
  */
 class EmailConfig extends \yii\db\ActiveRecord
 {
-    const EMAIL_SEPARATOR = '|';
+    const EMAIL_SEPARATOR = ',';
     /**
      * @inheritdoc
      */

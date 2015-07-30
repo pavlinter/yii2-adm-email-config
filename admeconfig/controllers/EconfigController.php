@@ -33,27 +33,36 @@ class EconfigController extends Controller
         $paramModule = Yii::$app->getModule('admparams');
         $paramsValue = null;
         if (isset(Yii::$app->params['adminEmails'])) {
-            $paramsValue = Yii::$app->params['adminEmails'];
+            $paramsValue = explode(EmailConfig::EMAIL_SEPARATOR, Yii::$app->params['adminEmails']);
         }
 
         $id = 1;
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $param = $paramModule->manager->createParamsQuery('find')->where(['name' => 'adminEmails'])->one();
-
             if ($param === null) {
                 $param = $paramModule->manager->createParams();
                 $param->name = 'adminEmails';
             }
-            $param->value = Yii::$app->request->post('params');
+            $paramsPost = Yii::$app->request->post('params');
+            if(is_array($paramsPost)){
+                $param->value = implode(EmailConfig::EMAIL_SEPARATOR, $paramsPost);
+            }
             $param->save(false);
-
             Yii::$app->getSession()->setFlash('success', Adm::t('','Data successfully changed!'));
             return Adm::redirect(['update']);
+        }
+        
+        $data = [];
+        if (is_array($paramsValue)) {
+            foreach ($paramsValue as $v) {
+                $data[$v] = $v;
+            }
         }
         return $this->render('update', [
             'model' => $model,
             'paramsValue' => $paramsValue,
+            'data' => $data,
         ]);
     }
 

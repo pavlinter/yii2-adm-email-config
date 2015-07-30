@@ -5,6 +5,8 @@ use pavlinter\adm\Adm;
 
 /* @var $this yii\web\View */
 /* @var $model \pavlinter\admeconfig\models\EmailConfig */
+/* @var $paramsValue array|null */
+/* @var $data array */
 
 Yii::$app->i18n->disableDot();
 $this->title = Adm::t('adm_email_config', 'Mail Config');
@@ -18,5 +20,6 @@ Yii::$app->i18n->resetDot();
     <?= $this->render('_form', [
         'model' => $model,
         'paramsValue' => $paramsValue,
+        'data' => $data,
     ]) ?>
 </div>
