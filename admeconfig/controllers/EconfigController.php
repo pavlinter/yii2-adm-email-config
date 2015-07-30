@@ -4,7 +4,7 @@
  * @package yii2-adm-email-config
  * @author Pavels Radajevs <pavlinter@gmail.com>
  * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
- * @version 1.0.1
+ * @version 2.0.0
  */
 
 namespace pavlinter\admeconfig\controllers;
@@ -52,7 +52,7 @@ class EconfigController extends Controller
             Yii::$app->getSession()->setFlash('success', Adm::t('','Data successfully changed!'));
             return Adm::redirect(['update']);
         }
-        
+
         $data = [];
         if (is_array($paramsValue)) {
             foreach ($paramsValue as $v) {
