@@ -47,6 +47,8 @@ class EconfigController extends Controller
             $paramsPost = Yii::$app->request->post('params');
             if(is_array($paramsPost)){
                 $param->value = implode(EmailConfig::EMAIL_SEPARATOR, $paramsPost);
+            } else {
+                $param->value = null;
             }
             $param->save(false);
             Yii::$app->getSession()->setFlash('success', Adm::t('','Data successfully changed!'));
