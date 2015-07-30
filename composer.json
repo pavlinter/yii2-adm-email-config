@@ -16,7 +16,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "pavlinter/yii2-adm-params": "@dev"
+        "pavlinter/yii2-adm-params": "1.*"
     },
     "autoload": {
         "psr-4": {
