@@ -34,6 +34,9 @@ class EconfigController extends Controller
         $paramsValue = null;
         if (isset(Yii::$app->params['adminEmails'])) {
             $paramsValue = explode(EmailConfig::EMAIL_SEPARATOR, Yii::$app->params['adminEmails']);
+            $paramsValue = array_filter($paramsValue, function ($v) {
+                return $v !== '';
+            });
         }
 
         $id = 1;
