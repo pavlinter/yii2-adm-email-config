@@ -4,7 +4,7 @@
  * @package yii2-adm-email-config
  * @author Pavels Radajevs <pavlinter@gmail.com>
  * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 namespace pavlinter\admeconfig\models;
@@ -203,13 +203,7 @@ class EmailConfig extends \yii\db\ActiveRecord
             }
         }
 
-
-        $params = $include;
-        if (isset(Yii::$app->params['adminEmails'])) {
-            if (Yii::$app->params['adminEmails'] !== '') {
-                $params = ArrayHelper::merge($params, explode(static::EMAIL_SEPARATOR, Yii::$app->params['adminEmails']));
-            }
-        }
+        $params = ArrayHelper::merge($include, static::getEmails());
 
         if (empty($exclude)) {
             return $params;
@@ -221,6 +215,17 @@ class EmailConfig extends \yii\db\ActiveRecord
             }
         }
         return $params;
+    }
+
+    public static function getEmails()
+    {
+        $emails = [];
+        if (isset(Yii::$app->params['adminEmails'])) {
+            if (Yii::$app->params['adminEmails'] !== '') {
+                $emails = explode(static::EMAIL_SEPARATOR, Yii::$app->params['adminEmails']);
+            }
+        }
+        return $emails;
     }
 
 }
