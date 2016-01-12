@@ -51,6 +51,7 @@ class Module extends \yii\base\Module implements AdmBootstrapInterface
     {
         if ($adm->user->can('AdmRoot')) {
             $adm->params['left-menu']['settings']['items'][] = [
+                'key' => 'adm-econfig',
                 'label' => '<span>' . $adm::t('menu', 'Email') . '</span>',
                 'url' => ['/admeconfig/econfig/update']
             ];
