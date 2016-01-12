@@ -4,7 +4,7 @@
  * @package yii2-adm-email-config
  * @author Pavels Radajevs <pavlinter@gmail.com>
  * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
- * @version 2.1.0
+ * @version 2.1.1
  */
 
 use yii\db\Schema;
